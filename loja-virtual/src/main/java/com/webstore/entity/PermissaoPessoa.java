@@ -1,12 +1,8 @@
 package com.webstore.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
@@ -16,7 +12,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class PermissaoPessoa extends Auditavel {
+public class PermissaoPessoa extends Auditavel implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -31,5 +27,8 @@ public class PermissaoPessoa extends Auditavel {
     @JoinColumn(name = "id_permissao")
     private Permissao permissao;
 
-
+    @Override
+    public String getAuthority() {
+        return permissao.getNome();
+    }
 }
